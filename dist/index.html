@@ -1,58 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="main.js" defer></script>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css" />
     <title>To-Do-List</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="sidebar">
-            <div class="header">
-                <h1>To Do App</h1>
-            </div>
-            <ul class="inbox">
-                <li>Today</li>
-                <li>This Week</li>
-                <li>Completed</li>
-            </ul>
-
-            <ul class="projects">
-                <h2>Projects</h2>
-                <li>This Week</li>
-                <li>Completed</li>
-            </ul>
+      <div class="sidebar">
+        <div class="header">
+          <h1>To Do App</h1>
         </div>
-        <div class="content">
-            <div class="page">
-                <h1>Today Tasks</h1>
-            </div>
+        <ul class="inbox">
+          <li>Today</li>
+          <li>This Week</li>
+          <li>Completed</li>
+        </ul>
+
+        <ul class="projects">
+          <h2>Projects</h2>
+          <li>This Week</li>
+          <li>Completed</li>
+          <div class="buttons">
+            <input type="text" id="" />
             <button>Add Task</button>
-            <div class="tasks">
-                <div class="task">
-                    <h2>Make app</h2>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                        Totam praesentium explicabo quos repellat accusantium nulla inventore
-                        aliquid aliquam fugiat? Nesciunt doloribus repellat nihil nostrum
-                        architecto accusantium minima eius rerum! Corporis!</p>
-                </div>
-
-                <div class="task">
-                    <h2>Make logic</h2>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                        Totam praesentium explicabo quos repellat accusantium nulla inventore
-                        aliquid aliquam fugiat? Nesciunt doloribus repellat nihil nostrum
-                        architecto accusantium minima eius rerum! Corporis!</p>
-                </div>
-
-            </div>
+          </div>
+        </ul>
+      </div>
+      <div class="content">
+        <div class="page">
+          <h1>Today Tasks</h1>
         </div>
+        <div class="tasks"></div>
+        <div class="tasks completed">
+          <h1>completed</h1>
+        </div>
+        <div class="add-task">
+          <input type="text" id="title" />
+          <button id="add">Add Task</button>
+        </div>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>
