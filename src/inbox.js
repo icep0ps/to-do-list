@@ -1,5 +1,5 @@
 import { todos } from './todos';
-import { showTasks } from './DOM';
+import { displayTasks } from './DOM';
 
 const input = document.querySelector('#title');
 const button = document.querySelector('#add');
@@ -14,9 +14,11 @@ const createTasks = (() => {
   return { addTask };
 })();
 
+const deleteTask = () => {};
+
 button.addEventListener('click', (e) => {
   createTasks.addTask(input.value, 'some random words');
-  showTasks();
+  displayTasks.showTasks();
 });
 
 export { tasks };
