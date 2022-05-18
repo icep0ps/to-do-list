@@ -1,4 +1,7 @@
 import { todos } from './todos';
+import { displayProjects } from './DOM';
+const input = document.querySelector('#project-name');
+const button = document.querySelector('button');
 
 const createdProjects = [];
 
@@ -14,9 +17,11 @@ class projects {
 }
 
 const createProject = (() => {
-  const project = new projects('whats the move');
-  createdProjects.push(project);
-  return { project };
+  const addProject = (title) => {
+    let project = new projects(title);
+    createdProjects.push(project);
+  };
+  return { addProject };
 })();
 
 const createProjectTask = (() => {
@@ -25,4 +30,9 @@ const createProjectTask = (() => {
   };
 })();
 
-export { projects };
+button.addEventListener('click', (e) => {
+  createProject.addProject(input.value);
+  displayProjects.showProjects();
+});
+
+export { projects, createdProjects };

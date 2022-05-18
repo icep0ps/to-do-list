@@ -5,6 +5,7 @@ ul {
 }
 
 li {
+  cursor: pointer;
   padding: 20px;
 }
 body {
