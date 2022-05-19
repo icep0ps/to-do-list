@@ -1,34 +1,42 @@
 import { createDayTodos } from './taskConstructors';
 import { createProjectTodos } from './taskConstructors';
 import { projects } from './projects';
+import { setActiveTab } from './DOM';
+
+const activeButton = (() => {
+  const li = document.querySelectorAll('li');
+  const buttons = Array.from(li);
+  function getButton() {
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', (e) => {
+        setActiveTab(e.target);
+        displayPage(buttons[i].textContent);
+      });
+    }
+  }
+  return { getButton };
+})();
 
 let activePage = new createDayTodos('today');
 activePage.project();
 activePage.inputs();
-const next = document.querySelectorAll('li');
-const buttons = Array.from(next);
-for (let i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener('click', (e) => {
-    displayPage(buttons[i].textContent);
-  });
-}
+activeButton.getButton();
 
 const displayPage = (button) => {
   const content = document.querySelector('.content');
-  const getdiv = content.querySelector(`.${button}`);
+  const getdiv = content.querySelector(`[data-name="${button}"]`);
   if (content.contains(getdiv)) {
     const divs = content.querySelectorAll('#group');
     Array.from(divs).forEach((div) => {
       if (div.getAttribute('class') === getdiv.getAttribute('class')) {
-        console.log('show');
-        div.style.display = 'block';
+        div.style.display = 'flex';
+        activeButton.getButton();
       } else {
-        console.log('hide ');
         div.style.display = 'none';
+        activeButton.getButton();
       }
     });
   } else {
-    console.log('me');
     const hide = content.querySelectorAll('#group');
     hide.forEach((div) => {
       div.style.display = 'none';
@@ -41,18 +49,14 @@ const createProjectPage = (() => {
   const createPage = (button) => {
     switch (button) {
       default:
-        createReal(button);
         activePage = new createProjectTodos(button);
         activePage.project();
         activePage.inputs();
+        activeButton.getButton();
     }
   };
 
-  const createReal = (button) => {
-    let project = new projects(button);
-    return project;
-  };
-  return { createPage, createReal };
+  return { createPage };
 })();
 
 export { displayPage, createProjectPage };

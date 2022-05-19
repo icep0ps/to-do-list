@@ -16,6 +16,8 @@ const displayTasks = (() => {
         div.classList.add('task');
         const checkbox = document.createElement('input');
         checkbox.setAttribute('type', 'checkbox');
+        const date = document.createElement('input');
+        date.setAttribute('type', 'date');
         checkbox.addEventListener('click', (e) => {
           displaycompletedTasks.moveTask(checkbox);
         });
@@ -38,6 +40,8 @@ const displayTasks = (() => {
         div.classList.add('task');
         const checkbox = document.createElement('input');
         checkbox.setAttribute('type', 'checkbox');
+        const date = document.createElement('input');
+        date.setAttribute('type', 'date');
         checkbox.addEventListener('click', (e) => {
           displaycompletedProjectTasks.moveTask(checkbox);
         });
@@ -52,26 +56,46 @@ const displayTasks = (() => {
 })();
 
 const displaycompletedTasks = (() => {
+  let completedTasks = 0;
   const moveTask = (input) => {
     if (input.parentElement.parentElement.getAttribute('class') == 'pending') {
       const completed = document.querySelector('.completed');
       completed.append(input.parentElement);
+      const span = completed.querySelector('span');
+      console.log(span);
+      completedTasks++;
+      span.textContent = completedTasks;
     } else {
       const pending = document.querySelector('.pending');
       pending.append(input.parentElement);
+      const completed = document.querySelector('.completed');
+      const span = completed.querySelector('span');
+      console.log(span);
+      completedTasks--;
+      span.textContent = completedTasks;
     }
   };
   return { moveTask };
 })();
 
 const displaycompletedProjectTasks = (() => {
+  let completedTasks = 0;
   const moveTask = (input) => {
     if (input.parentElement.parentElement.getAttribute('class') == 'pending') {
       const completed = currentdiv.querySelector('.completed');
       completed.append(input.parentElement);
+      const span = completed.querySelector('span');
+      console.log(span);
+      completedTasks++;
+      span.textContent = completedTasks;
     } else {
       const pending = currentdiv.querySelector('.pending');
       pending.append(input.parentElement);
+      const completed = currentdiv.querySelector('.completed');
+      const span = completed.querySelector('span');
+      console.log(span);
+      completedTasks--;
+      span.textContent = completedTasks;
     }
   };
   return { moveTask };
@@ -89,7 +113,7 @@ const displayProjects = (() => {
         projectList.append(newProject);
         newProject.textContent = project.title;
         newProject.addEventListener('click', (e) => {
-          let mainProject = new projects(project.title);
+          setActiveTab(e.target);
           displayPage(project.title);
         });
       }
@@ -98,4 +122,19 @@ const displayProjects = (() => {
   return { showProjects };
 })();
 
-export { displayTasks, displayProjects };
+const setActiveTab = (tab) => {
+  const tabs = document.querySelectorAll('li');
+  Array.from(tabs).forEach((li) => {
+    if (li.classList.contains('active')) {
+      console.log('its there');
+      li.classList.remove('active');
+    }
+  });
+  if (tab.classList.contains('active')) {
+    tab.classList.remove('active');
+  } else {
+    tab.setAttribute('class', 'active');
+  }
+};
+
+export { displayTasks, displayProjects, setActiveTab };

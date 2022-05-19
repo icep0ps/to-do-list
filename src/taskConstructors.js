@@ -19,14 +19,15 @@ class createProjectTodos {
     const page = document.createElement('div');
     page.className = `${this.title}`;
     page.setAttribute('id', 'group');
+    page.setAttribute('data-name', `${this.title}`);
     content.append(page);
-    const title = document.createElement('h1');
-    page.append(title);
-    title.textContent = this.title;
 
     const pending = document.createElement('div');
     pending.classList.add('pending');
     page.append(pending);
+    const title = document.createElement('h1');
+    pending.append(title);
+    title.textContent = this.title;
 
     const completed = document.createElement('div');
     completed.className = 'pending completed';
@@ -35,18 +36,22 @@ class createProjectTodos {
     const completedtitle = document.createElement('h1');
     completed.append(completedtitle);
     completedtitle.textContent = 'Completed';
+    const counter = document.createElement('span');
+    completedtitle.append(counter);
+    counter.classList.add('counter');
+    counter.textContent = 0;
   };
 
   inputs = () => {
-    const page = document.querySelector(`.${this.title}`);
+    const page = document.querySelector(`[data-name="${this.title}"]`);
     const addTaskButtons = document.createElement('div');
     addTaskButtons.classList.add('add-task');
     page.append(addTaskButtons);
 
     const input = document.createElement('input');
-    input.setAttribute('id', `${this.title}`);
+    input.setAttribute('data-input', `${this.title}`);
     addTaskButtons.append(input);
-    const value = document.querySelector(`#${this.title}`);
+    input.setAttribute('placeholder', 'Add a project task here');
 
     const button = document.createElement('button');
     button.setAttribute('id', 'add');
@@ -55,8 +60,7 @@ class createProjectTodos {
     button.addEventListener('click', (e) => {
       createdProjects.forEach((project) => {
         if (project.title == page.getAttribute('class')) {
-          console.log('yes');
-          project.addTask(value.value, 'some randome');
+          project.addTask(input.value, 'some randome');
           currentProject = project.tasks;
           currentdiv = page;
           displayTasks.showProjectTasks();
