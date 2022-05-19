@@ -1,6 +1,6 @@
 import { tasks } from './todos';
-import { clear } from './index';
-import { createdProjects } from './projects';
+import { displayPage } from './index';
+import { createdProjects, projects } from './projects';
 
 const displayTasks = (() => {
   const exist = [];
@@ -53,7 +53,8 @@ const displayProjects = (() => {
         projectList.append(newProject);
         newProject.textContent = project.title;
         newProject.addEventListener('click', (e) => {
-          clear(project.title);
+          let mainProject = new projects(project.title);
+          displayPage(project.title);
         });
       }
     });
