@@ -1,5 +1,12 @@
 import { createTasks } from './todos';
 import { displayTasks } from './DOM';
+import { createProjectPage } from './index';
+import { createdProjects } from './projects';
+
+//create mutiple projects
+
+let currentProject = '';
+let currentdiv = '';
 
 class createProjectTodos {
   constructor(title) {
@@ -46,8 +53,15 @@ class createProjectTodos {
     addTaskButtons.append(button);
     button.textContent = 'Add Task';
     button.addEventListener('click', (e) => {
-      createTasks.addTask(value.value, 'some random words');
-      displayTasks.showTasks();
+      createdProjects.forEach((project) => {
+        if (project.title == page.getAttribute('class')) {
+          console.log('yes');
+          project.addTask(value.value, 'some randome');
+          currentProject = project.tasks;
+          currentdiv = page;
+          displayTasks.showProjectTasks();
+        }
+      });
     });
   };
 }
@@ -80,4 +94,4 @@ class createDayTodos extends createProjectTodos {
   };
 }
 
-export { createProjectTodos, createDayTodos };
+export { createProjectTodos, createDayTodos, currentProject, currentdiv };

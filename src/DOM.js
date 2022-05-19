@@ -1,6 +1,7 @@
 import { tasks } from './todos';
 import { displayPage } from './index';
 import { createdProjects, projects } from './projects';
+import { currentProject, currentdiv } from './taskConstructors';
 
 const displayTasks = (() => {
   const exist = [];
@@ -25,7 +26,29 @@ const displayTasks = (() => {
       }
     });
   };
-  return { showTasks };
+
+  const showProjectTasks = () => {
+    currentProject.forEach((projectsTask) => {
+      if (!exist.includes(projectsTask.title)) {
+        exist.push(projectsTask.title);
+
+        const div = document.createElement('div');
+        const pending = currentdiv.querySelector('.pending');
+        pending.append(div);
+        div.classList.add('task');
+        const checkbox = document.createElement('input');
+        checkbox.setAttribute('type', 'checkbox');
+        checkbox.addEventListener('click', (e) => {
+          displaycompletedProjectTasks.moveTask(checkbox);
+        });
+        div.append(checkbox);
+        const title = document.createElement('label');
+        div.append(title);
+        title.textContent = projectsTask.title;
+      }
+    });
+  };
+  return { showTasks, showProjectTasks };
 })();
 
 const displaycompletedTasks = (() => {
@@ -35,6 +58,19 @@ const displaycompletedTasks = (() => {
       completed.append(input.parentElement);
     } else {
       const pending = document.querySelector('.pending');
+      pending.append(input.parentElement);
+    }
+  };
+  return { moveTask };
+})();
+
+const displaycompletedProjectTasks = (() => {
+  const moveTask = (input) => {
+    if (input.parentElement.parentElement.getAttribute('class') == 'pending') {
+      const completed = currentdiv.querySelector('.completed');
+      completed.append(input.parentElement);
+    } else {
+      const pending = currentdiv.querySelector('.pending');
       pending.append(input.parentElement);
     }
   };

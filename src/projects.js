@@ -20,17 +20,13 @@ const createProject = (() => {
   const addProject = (title) => {
     let project = new projects(title);
     createdProjects.push(project);
+    console.log(createdProjects);
   };
   return { addProject };
 })();
 
-const createProjectTask = (() => {
-  const createProjectTask = () => {
-    createProject.project.addTask('watch slam dunk', 'is it good though');
-  };
-})();
-
 button.addEventListener('click', (e) => {
+  console.log('run');
   createProject.addProject(input.value);
   displayProjects.showProjects();
 });

@@ -1,5 +1,6 @@
 import { createDayTodos } from './taskConstructors';
 import { createProjectTodos } from './taskConstructors';
+import { projects } from './projects';
 
 let activePage = new createDayTodos('today');
 activePage.project();
@@ -32,17 +33,26 @@ const displayPage = (button) => {
     hide.forEach((div) => {
       div.style.display = 'none';
     });
-    createPage(button);
+    createProjectPage.createPage(button);
   }
 };
 
-const createPage = (button) => {
-  switch (button) {
-    default:
-      activePage = new createProjectTodos(button);
-      activePage.project();
-      activePage.inputs();
-  }
-};
+const createProjectPage = (() => {
+  const createPage = (button) => {
+    switch (button) {
+      default:
+        createReal(button);
+        activePage = new createProjectTodos(button);
+        activePage.project();
+        activePage.inputs();
+    }
+  };
 
-export { createPage, displayPage };
+  const createReal = (button) => {
+    let project = new projects(button);
+    return project;
+  };
+  return { createPage, createReal };
+})();
+
+export { displayPage, createProjectPage };
