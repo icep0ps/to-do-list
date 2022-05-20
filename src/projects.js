@@ -35,17 +35,29 @@ const createInput = () => {
   const input = document.createElement('input');
   input.setAttribute('id', 'createInput');
   const createButton = document.createElement('button');
+  const cancelButton = document.createElement('button');
   createButton.setAttribute('id', 'createButton');
+  cancelButton.setAttribute('id', 'createButton');
   createButton.textContent = 'Create';
+  cancelButton.textContent = 'Cancel';
   div.append(input);
   div.append(createButton);
+  div.append(cancelButton);
   createButton.style.display = 'block';
+  cancelButton.style.display = 'block';
+  cancelButton.addEventListener('click', (e) => {
+    button1.style.display = 'block';
+    createButton.remove();
+    input.remove();
+    cancelButton.remove();
+  });
   createButton.addEventListener('click', (e) => {
     createProject.addProject(input.value);
     displayProjects.showProjects();
     button1.style.display = 'block';
     input.remove();
     createButton.remove();
+    cancelButton.remove();
   });
 };
 

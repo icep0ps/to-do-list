@@ -15,6 +15,15 @@ h2 {
   margin-top: 30px;
 }
 
+a {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+a:visited {
+  color: black;
+}
 li {
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
@@ -33,8 +42,8 @@ li {
 
 label {
   font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  font-size: 1.2rem;
+  font-style: normal;
+  font-size: 1.3rem;
   margin-left: 20px;
 }
 body {
@@ -44,30 +53,33 @@ body {
 h1,
 h2,
 button {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'UlagadiSansRegular';
+}
+button {
+  cursor: pointer;
 }
 
 input[type='checkbox'] {
   appearance: none;
   color: black;
   border: 1px solid black;
-  border-radius: 5px;
+  border-radius: 50px;
   height: 20px;
   width: 20px;
-  transform: translateY(0.35rem);
 }
 
 .container {
   background-color: rgb(236, 236, 236);
   display: grid;
-  grid-template-columns: 1.3fr 5fr;
+  grid-template-columns: 1.5fr 5fr;
   height: 100vh;
   width: 100vw;
 }
 
 .content {
   background-color: rgb(236, 236, 236);
-  margin: 0px auto;
+  margin: 0px 10%;
+  padding: 20px;
   position: relative;
   height: 90vh;
 }
@@ -80,41 +92,57 @@ input[type='checkbox'] {
   display: flex;
   flex-direction: column;
   gap: 100px;
+  margin: 0px;
+  padding: 0px;
 }
 
 .sidebar {
-  padding: 0px 40px;
+  position: relative;
+  padding: 0px 10px 0px 40px;
   background-color: white;
+}
+.sidebar > p {
+  font-size: 0.7rem;
+  position: absolute;
+  bottom: 50px;
+  right: 30px;
+  left: 30px;
+  text-align: center;
 }
 
 .counter {
+  font-size: 1rem;
   color: white;
   margin-left: 20px;
   border-radius: 15px;
-  padding: 10px 20px;
+  padding: 5px 15px;
   background-color: var(--main-color);
 }
 
 .header {
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   display: flex;
   align-items: center;
 }
 
 .pending {
   display: grid;
-  grid-template-columns: minmax(500px, 700px);
+  grid-template-columns: minmax(500px, 1fr);
   gap: 15px;
+  width: 100%;
 }
 
 .task {
+  display: flex;
+  align-items: center;
+  position: relative;
   font-size: 1rem;
   background-color: white;
   border-radius: 10px;
   padding: 15px;
   font-size: 1.5rem;
-  width: 80%;
+  margin: 0px 5%;
 }
 
 .page {
@@ -126,9 +154,9 @@ input[type='checkbox'] {
 .add-task > input {
   outline: none;
   border: none;
-  background-color: whitesmoke;
+  background-color: white;
   height: 50px;
-  width: 50%;
+  width: 100%;
   padding: 10px;
   border-radius: 15px;
 }
@@ -136,18 +164,43 @@ input[type='checkbox'] {
 .add-task {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 20px;
   position: absolute;
   bottom: 0;
   align-self: center;
   width: 100%;
 }
-input[type='checkbox']:checked + label {
-  text-decoration: line-through;
+input[type='checkbox']:checked {
+  box-sizing: border-box;
+  border: none;
+  background-color: #6665dd;
 }
+
+input[type='date'] {
+  position: absolute;
+  right: 10px;
+  padding: 0px;
+  margin: 0px;
+  content: ' ';
+  font-family: 'Poppins', sans-serif;
+  appearance: none;
+  border: none;
+  width: min-content;
+}
+input[type='date']::before {
+  content: 'Due date ';
+  padding: 10px;
+}
+
+input[type='date']::-webkit-inner-spin-button,
+input[type='date']::-webkit-calendar-picker-indicator {
+  padding: 0px;
+  margin: 10px;
+}
+
 .add-task > button {
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   color: white;
   box-sizing: border-box;
   padding: 20px;
@@ -187,4 +240,9 @@ input[type='checkbox']:checked + label {
   box-sizing: border-box;
   padding: 15px;
   background-color: var(--main-color);
+  width: 95%;
+}
+.completed > h1 {
+  display: flex;
+  align-items: center;
 }

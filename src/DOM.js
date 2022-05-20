@@ -1,7 +1,7 @@
 import { tasks } from './todos';
-import { displayPage } from './index';
-import { createdProjects, projects } from './projects';
+import { createdProjects } from './projects';
 import { currentProject, currentdiv } from './taskConstructors';
+import { createProjectPage } from './index';
 
 const displayTasks = (() => {
   const exist = [];
@@ -25,6 +25,7 @@ const displayTasks = (() => {
         const title = document.createElement('label');
         div.append(title);
         title.textContent = task.title;
+        div.append(date);
       }
     });
   };
@@ -83,6 +84,7 @@ const displaycompletedProjectTasks = (() => {
   const moveTask = (input) => {
     if (input.parentElement.parentElement.getAttribute('class') == 'pending') {
       const completed = currentdiv.querySelector('.completed');
+      console.log(currentdiv);
       completed.append(input.parentElement);
       const span = completed.querySelector('span');
       console.log(span);
@@ -126,7 +128,6 @@ const setActiveTab = (tab) => {
   const tabs = document.querySelectorAll('li');
   Array.from(tabs).forEach((li) => {
     if (li.classList.contains('active')) {
-      console.log('its there');
       li.classList.remove('active');
     }
   });
@@ -137,4 +138,25 @@ const setActiveTab = (tab) => {
   }
 };
 
-export { displayTasks, displayProjects, setActiveTab };
+const displayPage = (button) => {
+  const content = document.querySelector('.content');
+  const getdiv = content.querySelector(`[data-name="${button}"]`);
+  if (content.contains(getdiv)) {
+    const divs = content.querySelectorAll('#group');
+    Array.from(divs).forEach((div) => {
+      if (div.getAttribute('class') === getdiv.getAttribute('class')) {
+        div.style.display = 'flex';
+      } else {
+        div.style.display = 'none';
+      }
+    });
+  } else {
+    const hide = content.querySelectorAll('#group');
+    hide.forEach((div) => {
+      div.style.display = 'none';
+    });
+    createProjectPage.createPage(button);
+  }
+};
+
+export { displayTasks, displayProjects, setActiveTab, displayPage };
