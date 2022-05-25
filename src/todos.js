@@ -16,4 +16,12 @@ const createTasks = (() => {
   return { addTask };
 })();
 
-export { todos, createTasks, tasks };
+const deletetask = (item) => {
+  tasks.forEach((task) => {
+    if (task.title == item) {
+      tasks.splice(tasks.indexOf(task), 1);
+    }
+  });
+};
+
+export { todos, createTasks, tasks, deletetask };

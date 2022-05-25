@@ -25,6 +25,9 @@ a:visited {
   color: black;
 }
 li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
   font-weight: bold;
@@ -33,6 +36,23 @@ li {
   border-radius: 15px;
   width: 95%;
   margin: 10px 0px;
+}
+
+li > img {
+  height: 20px;
+  margin-right: 20px;
+  fill: #6665dd;
+  opacity: 0;
+}
+
+li:hover img {
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+
+li:hover {
+  transition: 0.2s ease-in-out;
+  background-color: whitesmoke;
 }
 
 .active {
@@ -71,7 +91,7 @@ input[type='checkbox'] {
 .container {
   background-color: rgb(236, 236, 236);
   display: grid;
-  grid-template-columns: 1.5fr 5fr;
+  grid-template-columns: 1.3fr 5fr;
   height: 100vh;
   width: 100vw;
 }
@@ -86,6 +106,7 @@ input[type='checkbox'] {
 .inbox > li {
   margin: 0px;
   font-size: 1rem;
+  margin-bottom: 10px;
 }
 
 #group {
@@ -145,6 +166,30 @@ input[type='checkbox'] {
   margin: 0px 5%;
 }
 
+.task > img {
+  height: 20px;
+  position: absolute;
+  right: 20px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.task:hover > img {
+  transition: opacity 0.3s;
+  opacity: 1;
+}
+
+input[type='date'] {
+  position: absolute;
+  right: 60px;
+  padding: 0px;
+  margin: 0px;
+  content: ' ';
+  font-family: 'Poppins', sans-serif;
+  appearance: none;
+  border: none;
+  width: min-content;
+}
+
 .page {
   display: flex;
   align-items: center;
@@ -176,17 +221,6 @@ input[type='checkbox']:checked {
   background-color: #6665dd;
 }
 
-input[type='date'] {
-  position: absolute;
-  right: 10px;
-  padding: 0px;
-  margin: 0px;
-  content: ' ';
-  font-family: 'Poppins', sans-serif;
-  appearance: none;
-  border: none;
-  width: min-content;
-}
 input[type='date']::before {
   content: 'Due date ';
   padding: 10px;
@@ -245,4 +279,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .completed > h1 {
   display: flex;
   align-items: center;
+}
+
+.options {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
 }
