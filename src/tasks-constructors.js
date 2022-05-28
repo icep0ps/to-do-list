@@ -1,7 +1,7 @@
-import { createTasks } from './todos';
-import { displayTasks } from './DOM';
-import { createProjectPage } from './index';
-import { createdProjects } from './projects';
+import { createTasks } from './todos-logic';
+import { displayTasks } from './task-display-controller';
+import { displayTasks as displayProjectTasks } from './project-display-controller';
+import { createdProjects } from './projects-logic';
 
 //create mutiple projects
 
@@ -63,7 +63,7 @@ class createProjectTodos {
           project.addTask(input.value, 'some randome');
           currentProject = project.tasks;
           currentdiv = page;
-          displayTasks.showProjectTasks();
+          displayProjectTasks.showProjectTasks();
         }
       });
     });

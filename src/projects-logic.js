@@ -1,5 +1,6 @@
-import { todos } from './todos';
-import { displayProjects } from './DOM';
+import { todos } from './todos-logic';
+import { displayProjects } from './project-display-controller';
+
 const button1 = document.querySelector('#createProject');
 button1.addEventListener('click', (e) => {
   console.log('clicked');

@@ -1,4 +1,4 @@
-import { displayTasks } from './DOM';
+import { displayTasks } from './task-display-controller';
 const tasks = [];
 
 class todos {

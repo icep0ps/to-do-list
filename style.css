@@ -146,6 +146,9 @@ input[type='checkbox'] {
   display: flex;
   align-items: center;
 }
+.header > svg {
+  fill: #6665dd;
+}
 
 .pending {
   display: grid;

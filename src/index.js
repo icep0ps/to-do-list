@@ -1,7 +1,10 @@
-import { createDayTodos } from './taskConstructors';
-import { createProjectTodos } from './taskConstructors';
-import { projects } from './projects';
-import { setActiveTab, displayPage } from './DOM';
+import { createDayTodos } from './tasks-constructors';
+import { createProjectTodos } from './tasks-constructors';
+import { setActiveTab, displayPage } from './general-display-controller';
+
+let activePage = new createDayTodos('today');
+activePage.project();
+activePage.inputs();
 
 const DefaultactiveButton = (() => {
   const Today = document.querySelector('li');
@@ -11,18 +14,11 @@ const DefaultactiveButton = (() => {
   });
 })();
 
-let activePage = new createDayTodos('today');
-activePage.project();
-activePage.inputs();
-
 const createProjectPage = (() => {
   const createPage = (button) => {
-    switch (button) {
-      default:
-        activePage = new createProjectTodos(button);
-        activePage.project();
-        activePage.inputs();
-    }
+    activePage = new createProjectTodos(button);
+    activePage.project();
+    activePage.inputs();
   };
 
   return { createPage };
