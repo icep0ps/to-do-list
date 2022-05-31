@@ -8,6 +8,7 @@ button1.addEventListener('click', (e) => {
 });
 
 const createdProjects = [];
+let saved = JSON.parse(localStorage.getItem('projects'));
 
 class projects {
   constructor(title) {
@@ -17,13 +18,24 @@ class projects {
   addTask(title, description) {
     let task = new todos(title, description);
     this.tasks.push(task);
+    localStorage.setItem(`${this.title}`, JSON.stringify(this.tasks));
   }
 }
+
+const savetoLoacal = (data) => {
+  if (saved == null) {
+    localStorage.setItem('projects', JSON.stringify(createdProjects));
+  } else {
+    saved.push(data);
+    localStorage.setItem('projects', JSON.stringify(saved));
+  }
+};
 
 const createProject = (() => {
   const addProject = (title) => {
     let project = new projects(title);
     createdProjects.push(project);
+    savetoLoacal(project);
   };
   return { addProject };
 })();
@@ -69,4 +81,15 @@ const createInput = () => {
   });
 };
 
-export { projects, createdProjects, deleteProjectFromArray };
+// function projectMethods(data) {
+//   this.title = data.title;
+//   this.tasks = [data.task];
+// }
+
+// projectMethods.prototype.addTask = function (title, description) {
+//   let task = new todos(title, description);
+//   this.tasks.push(task);
+//   localStorage.setItem(`${this.title}`, JSON.stringify(this.tasks));
+// };
+
+export { projects, createdProjects, deleteProjectFromArray, saved };

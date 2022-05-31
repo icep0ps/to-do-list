@@ -64,6 +64,7 @@ const setActiveTab = (tab) => {
   }
 };
 
+//here is the problem you might have to create a separate module because in project display you are putting the whole object
 const displayPage = (button) => {
   const content = document.querySelector('.content');
   const getdiv = content.querySelector(`[data-name="${button}"]`);
@@ -81,6 +82,7 @@ const displayPage = (button) => {
     hide.forEach((div) => {
       div.style.display = 'none';
     });
+
     createProjectPage.createPage(button);
   }
 };

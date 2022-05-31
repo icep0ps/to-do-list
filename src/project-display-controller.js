@@ -1,4 +1,8 @@
-import { createdProjects, deleteProjectFromArray } from './projects-logic';
+import {
+  createdProjects,
+  deleteProjectFromArray,
+  saved,
+} from './projects-logic';
 import { currentdiv, currentProject } from './tasks-constructors';
 import {
   setActiveTab,
@@ -12,7 +16,7 @@ const displayProjects = (() => {
   const createProject = (project) => {
     const newProject = document.createElement('li');
     projectList.append(newProject);
-    newProject.textContent = project;
+    newProject.textContent = project.title;
     const deleteIcon = document.createElement('img');
     deleteIcon.setAttribute('src', '/src/img/icons8-remove-48.png');
     deleteIcon.addEventListener('click', (e) => {
@@ -22,6 +26,8 @@ const displayProjects = (() => {
     newProject.append(deleteIcon);
     newProject.addEventListener('click', (e) => {
       setActiveTab(e.target);
+      //this problem see genreal display
+      console.log(project.title);
       displayPage(project);
     });
   };
@@ -30,7 +36,7 @@ const displayProjects = (() => {
     createdProjects.forEach((project) => {
       if (!exist.includes(project.title)) {
         exist.push(project.title);
-        createProject(project.title);
+        createProject(project);
       }
     });
   };
@@ -95,4 +101,12 @@ const deleteProject = (title) => {
   });
 };
 
-export { displayProjects, displayTasks };
+const projectLoader = () => {
+  if (saved != null) {
+    saved.forEach((task) => {
+      displayProjects.createProject(task);
+    });
+  }
+};
+
+export { displayProjects, displayTasks, projectLoader };

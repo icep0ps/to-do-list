@@ -1,10 +1,14 @@
 import { createDayTodos } from './tasks-constructors';
 import { createProjectTodos } from './tasks-constructors';
 import { setActiveTab, displayPage } from './general-display-controller';
+import { todayLoader } from './task-display-controller';
+import { projectLoader } from './project-display-controller';
 
 let activePage = new createDayTodos('today');
 activePage.project();
 activePage.inputs();
+todayLoader();
+projectLoader();
 
 const DefaultactiveButton = (() => {
   const Today = document.querySelector('li');
@@ -16,7 +20,7 @@ const DefaultactiveButton = (() => {
 
 const createProjectPage = (() => {
   const createPage = (button) => {
-    activePage = new createProjectTodos(button);
+    activePage = new createProjectTodos(button.title);
     activePage.project();
     activePage.inputs();
   };

@@ -1,5 +1,16 @@
 import { displayTasks } from './task-display-controller';
+
 const tasks = [];
+let saved = JSON.parse(localStorage.getItem('today'));
+
+const savetoLoacal = (data) => {
+  if (saved == null) {
+    localStorage.setItem('today', JSON.stringify(tasks));
+  } else {
+    saved.push(data);
+    localStorage.setItem('today', JSON.stringify(saved));
+  }
+};
 
 class todos {
   constructor(title, description) {
@@ -12,7 +23,9 @@ const createTasks = (() => {
   const addTask = (title, description) => {
     let task = new todos(title, description);
     tasks.push(task);
+    savetoLoacal(task);
   };
+
   return { addTask };
 })();
 
@@ -24,4 +37,4 @@ const deletetask = (item) => {
   });
 };
 
-export { todos, createTasks, tasks, deletetask };
+export { todos, createTasks, tasks, deletetask, saved };

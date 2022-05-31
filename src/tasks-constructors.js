@@ -15,7 +15,7 @@ class createProjectTodos {
 
   project = () => {
     const content = document.querySelector('.content');
-
+    console.log(this);
     const page = document.createElement('div');
     page.className = `${this.title}`;
     page.setAttribute('id', 'group');
