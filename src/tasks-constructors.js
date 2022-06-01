@@ -1,9 +1,7 @@
 import { createTasks } from './todos-logic';
 import { displayTasks } from './task-display-controller';
 import { displayTasks as displayProjectTasks } from './project-display-controller';
-import { createdProjects } from './projects-logic';
-
-//create mutiple projects
+import { saved, projectMethods, createdProjects } from './projects-logic';
 
 let currentProject = '';
 let currentdiv = '';
@@ -44,6 +42,7 @@ class createProjectTodos {
 
   inputs = () => {
     const page = document.querySelector(`[data-name="${this.title}"]`);
+    console.log(this);
     const addTaskButtons = document.createElement('div');
     addTaskButtons.classList.add('add-task');
     page.append(addTaskButtons);
@@ -58,14 +57,29 @@ class createProjectTodos {
     addTaskButtons.append(button);
     button.textContent = 'Add Task';
     button.addEventListener('click', (e) => {
-      createdProjects.forEach((project) => {
-        if (project.title == page.getAttribute('class')) {
-          project.addTask(input.value, 'some randome');
-          currentProject = project.tasks;
-          currentdiv = page;
-          displayProjectTasks.showProjectTasks();
-        }
-      });
+      if (saved !== null) {
+        console.log('saved');
+        saved.forEach((project) => {
+          if (project.title == page.getAttribute('class')) {
+            const addMethods = new projectMethods(project);
+            addMethods.addTask(input.value, 'some randomethig');
+            console.log(addMethods);
+            currentProject = project.tasks;
+            currentdiv = page;
+            displayProjectTasks.showProjectTasks();
+          }
+        });
+      } else {
+        console.log('created');
+        createdProjects.forEach((project) => {
+          if (project.title == page.getAttribute('class')) {
+            project.addTask(input.value, 'some randome');
+            currentProject = project.tasks;
+            currentdiv = page;
+            displayProjectTasks.showProjectTasks();
+          }
+        });
+      }
     });
   };
 }

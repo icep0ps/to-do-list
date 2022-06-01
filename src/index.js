@@ -1,7 +1,7 @@
 import { createDayTodos } from './tasks-constructors';
 import { createProjectTodos } from './tasks-constructors';
-import { setActiveTab, displayPage } from './general-display-controller';
-import { todayLoader } from './task-display-controller';
+import { setActiveTab } from './general-display-controller';
+import { todayLoader, displayPage } from './task-display-controller';
 import { projectLoader } from './project-display-controller';
 
 let activePage = new createDayTodos('today');

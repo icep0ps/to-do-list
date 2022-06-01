@@ -1,7 +1,4 @@
-import { tasks, deletetask as deletetaskFromArray } from './todos-logic';
-
 import { currentProject, currentdiv } from './tasks-constructors';
-import { createProjectPage } from './index';
 
 const displaycompletedTasks = (() => {
   let completedTasks = 0;
@@ -64,32 +61,4 @@ const setActiveTab = (tab) => {
   }
 };
 
-//here is the problem you might have to create a separate module because in project display you are putting the whole object
-const displayPage = (button) => {
-  const content = document.querySelector('.content');
-  const getdiv = content.querySelector(`[data-name="${button}"]`);
-  if (content.contains(getdiv)) {
-    const divs = content.querySelectorAll('#group');
-    Array.from(divs).forEach((div) => {
-      if (div.getAttribute('class') === getdiv.getAttribute('class')) {
-        div.style.display = 'flex';
-      } else {
-        div.style.display = 'none';
-      }
-    });
-  } else {
-    const hide = content.querySelectorAll('#group');
-    hide.forEach((div) => {
-      div.style.display = 'none';
-    });
-
-    createProjectPage.createPage(button);
-  }
-};
-
-export {
-  setActiveTab,
-  displayPage,
-  displaycompletedProjectTasks,
-  displaycompletedTasks,
-};
+export { setActiveTab, displaycompletedProjectTasks, displaycompletedTasks };

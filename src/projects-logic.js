@@ -18,7 +18,7 @@ class projects {
   addTask(title, description) {
     let task = new todos(title, description);
     this.tasks.push(task);
-    localStorage.setItem(`${this.title}`, JSON.stringify(this.tasks));
+    saveProjectTaskToLocal(task, this.title);
   }
 }
 
@@ -27,7 +27,23 @@ const savetoLoacal = (data) => {
     localStorage.setItem('projects', JSON.stringify(createdProjects));
   } else {
     saved.push(data);
+    console.log(data);
     localStorage.setItem('projects', JSON.stringify(saved));
+  }
+};
+
+const saveProjectTaskToLocal = (data, parent) => {
+  console.log(data);
+  if (saved == null) {
+    localStorage.setItem('projects', JSON.stringify(createdProjects));
+  } else {
+    saved.forEach((project) => {
+      if (project.title == parent) {
+        project.tasks.push(data);
+        localStorage.setItem('projects', JSON.stringify(saved));
+        console.log(saved);
+      }
+    });
   }
 };
 
@@ -81,15 +97,21 @@ const createInput = () => {
   });
 };
 
-// function projectMethods(data) {
-//   this.title = data.title;
-//   this.tasks = [data.task];
-// }
+function projectMethods(data) {
+  this.title = data.title;
+  this.tasks = [];
+}
 
-// projectMethods.prototype.addTask = function (title, description) {
-//   let task = new todos(title, description);
-//   this.tasks.push(task);
-//   localStorage.setItem(`${this.title}`, JSON.stringify(this.tasks));
-// };
+projectMethods.prototype.addTask = function (title, description) {
+  let task = new todos(title, description);
+  this.tasks.push(task);
+  saveProjectTaskToLocal(task, this.title);
+};
 
-export { projects, createdProjects, deleteProjectFromArray, saved };
+export {
+  projects,
+  createdProjects,
+  deleteProjectFromArray,
+  saved,
+  projectMethods,
+};

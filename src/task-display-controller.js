@@ -1,5 +1,6 @@
 import { tasks, deletetask as deletetaskFromArray, saved } from './todos-logic';
 import { displaycompletedTasks } from './general-display-controller';
+import { createProjectPage } from './index';
 
 const displayTasks = (() => {
   const exist = [];
@@ -42,6 +43,28 @@ const displayTasks = (() => {
   return { showTasks, createTask };
 })();
 
+const displayPage = (button) => {
+  const content = document.querySelector('.content');
+  const getdiv = content.querySelector(`[data-name="${button}"]`);
+  if (content.contains(getdiv)) {
+    const divs = content.querySelectorAll('#group');
+    Array.from(divs).forEach((div) => {
+      if (div.getAttribute('class') === getdiv.getAttribute('class')) {
+        div.style.display = 'flex';
+      } else {
+        div.style.display = 'none';
+      }
+    });
+  } else {
+    const hide = content.querySelectorAll('#group');
+    hide.forEach((div) => {
+      div.style.display = 'none';
+    });
+
+    createProjectPage.createPage(button);
+  }
+};
+
 const deleteTask = (item) => {
   tasks.forEach((task) => {
     const taskDiv = item.parentElement.getAttribute('data-task');
@@ -60,4 +83,4 @@ const todayLoader = () => {
   }
 };
 
-export { displayTasks, todayLoader };
+export { displayTasks, todayLoader, displayPage };

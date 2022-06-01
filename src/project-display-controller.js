@@ -6,9 +6,9 @@ import {
 import { currentdiv, currentProject } from './tasks-constructors';
 import {
   setActiveTab,
-  displayPage,
   displaycompletedProjectTasks,
 } from './general-display-controller';
+import { createProjectPage } from './index';
 
 const displayProjects = (() => {
   const exist = [];
@@ -85,6 +85,28 @@ const displayTasks = (() => {
   return { showProjectTasks, createTask };
 })();
 
+const displayPage = (button) => {
+  const content = document.querySelector('.content');
+  const getdiv = content.querySelector(`[data-name="${button.title}"]`);
+  if (content.contains(getdiv)) {
+    const divs = content.querySelectorAll('#group');
+    Array.from(divs).forEach((div) => {
+      if (div.getAttribute('class') === getdiv.getAttribute('class')) {
+        div.style.display = 'flex';
+      } else {
+        div.style.display = 'none';
+      }
+    });
+  } else {
+    const hide = content.querySelectorAll('#group');
+    hide.forEach((div) => {
+      div.style.display = 'none';
+    });
+
+    createProjectPage.createPage(button);
+  }
+};
+
 const deleteProject = (title) => {
   createdProjects.forEach((project) => {
     if (project.title == title.parentElement.textContent) {
@@ -109,4 +131,4 @@ const projectLoader = () => {
   }
 };
 
-export { displayProjects, displayTasks, projectLoader };
+export { displayProjects, displayTasks, projectLoader, displayPage };
