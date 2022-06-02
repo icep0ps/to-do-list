@@ -13,11 +13,11 @@ class createProjectTodos {
 
   project = () => {
     const content = document.querySelector('.content');
-    console.log(this);
     const page = document.createElement('div');
     page.className = `${this.title}`;
     page.setAttribute('id', 'group');
     page.setAttribute('data-name', `${this.title}`);
+    page.setAttribute('data-active', 'true');
     content.append(page);
 
     const pending = document.createElement('div');
@@ -66,17 +66,17 @@ class createProjectTodos {
             console.log(addMethods);
             currentProject = project.tasks;
             currentdiv = page;
-            displayProjectTasks.showProjectTasks();
+            displayProjectTasks.showProjectTasks(project.title);
           }
         });
       } else {
-        console.log('created');
+        console.log('saved');
         createdProjects.forEach((project) => {
           if (project.title == page.getAttribute('class')) {
             project.addTask(input.value, 'some randome');
             currentProject = project.tasks;
             currentdiv = page;
-            displayProjectTasks.showProjectTasks();
+            displayProjectTasks.showProjectTasks(project.title);
           }
         });
       }

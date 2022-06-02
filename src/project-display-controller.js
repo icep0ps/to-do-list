@@ -26,9 +26,9 @@ const displayProjects = (() => {
     newProject.append(deleteIcon);
     newProject.addEventListener('click', (e) => {
       setActiveTab(e.target);
-      //this problem see genreal display
       console.log(project.title);
       displayPage(project);
+      displayTasks.showProjectTasks(project.title);
     });
   };
 
@@ -48,6 +48,7 @@ const displayTasks = (() => {
 
   const createTask = (projectsTask) => {
     const div = document.createElement('div');
+    let currentdiv = document.querySelector(`[data-active]`);
     const pending = currentdiv.querySelector('.pending');
     pending.append(div);
     div.classList.add('task');
@@ -74,13 +75,26 @@ const displayTasks = (() => {
     div.append(removeIcon);
   };
 
-  const showProjectTasks = () => {
-    currentProject.forEach((projectsTask) => {
-      if (!exist.includes(projectsTask.title)) {
-        exist.push(projectsTask.title);
-        createTask(projectsTask);
-      }
-    });
+  const showProjectTasks = (title) => {
+    if (saved == null) {
+      currentProject.forEach((projectsTask) => {
+        if (!exist.includes(projectsTask.title)) {
+          exist.push(projectsTask.title);
+          createTask(projectsTask);
+        }
+      });
+    } else {
+      saved.forEach((project) => {
+        if (project.title === title) {
+          project.tasks.forEach((projectsTask) => {
+            if (!exist.includes(projectsTask.title)) {
+              exist.push(projectsTask.title);
+              createTask(projectsTask);
+            }
+          });
+        }
+      });
+    }
   };
   return { showProjectTasks, createTask };
 })();
@@ -92,14 +106,17 @@ const displayPage = (button) => {
     const divs = content.querySelectorAll('#group');
     Array.from(divs).forEach((div) => {
       if (div.getAttribute('class') === getdiv.getAttribute('class')) {
+        div.setAttribute('data-active', 'true');
         div.style.display = 'flex';
       } else {
+        div.removeAttribute('data-active', 'true');
         div.style.display = 'none';
       }
     });
   } else {
     const hide = content.querySelectorAll('#group');
     hide.forEach((div) => {
+      div.removeAttribute('data-active', 'true');
       div.style.display = 'none';
     });
 
