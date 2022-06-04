@@ -16,6 +16,14 @@
       href="https://fontlibrary.org//face/orkney"
       type="text/css"
     />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,200,1,0"
+    />
     <script src="main.js" defer></script>
     <link rel="stylesheet" href="/style.css" />
     <title>To-Do-List</title>
@@ -25,22 +33,26 @@
     <div class="container">
       <div class="sidebar">
         <div class="header">
-          <h1>Tasks App</h1>
-          <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
-            <path
-              d="M10 18H20V14H10ZM10 26H20V22H10ZM10 34H20V30H10ZM29.1 30 39 20.1 36.15 17.25 29.1 24.35 26.25 21.5 23.45 24.35ZM6.6 42Q5.4 42 4.5 41.1Q3.6 40.2 3.6 39V9Q3.6 7.8 4.5 6.9Q5.4 6 6.6 6H41.4Q42.6 6 43.5 6.9Q44.4 7.8 44.4 9V39Q44.4 40.2 43.5 41.1Q42.6 42 41.4 42ZM6.6 39H41.4Q41.4 39 41.4 39Q41.4 39 41.4 39V9Q41.4 9 41.4 9Q41.4 9 41.4 9H6.6Q6.6 9 6.6 9Q6.6 9 6.6 9V39Q6.6 39 6.6 39Q6.6 39 6.6 39ZM6.6 39Q6.6 39 6.6 39Q6.6 39 6.6 39V9Q6.6 9 6.6 9Q6.6 9 6.6 9Q6.6 9 6.6 9Q6.6 9 6.6 9V39Q6.6 39 6.6 39Q6.6 39 6.6 39Z"
-            />
-          </svg>
+          <h1>
+            <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
+              <path
+                d="M19.95 42 22 27.9H14.7Q14.15 27.9 13.9 27.4Q13.65 26.9 13.9 26.45L26.15 6H28.2L26.15 20.05H33.35Q33.9 20.05 34.175 20.55Q34.45 21.05 34.2 21.5L22 42Z"
+              /></svg
+            >Quick Tasks
+          </h1>
         </div>
         <ul class="inbox">
           <h2>Inbox</h2>
           <li class="active">Today</li>
           <li>This week</li>
         </ul>
+
         <h2>Projects</h2>
+
         <ul class="projects"></ul>
         <div class="buttons">
           <button id="createProject">Create Project</button>
+          <button id="deleteProject">Delete Project</button>
         </div>
         <p>
           Become focused, organized, and calm with Taskify. A minimalistic task

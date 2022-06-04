@@ -2,8 +2,10 @@ import {
   createdProjects,
   deleteProjectFromArray,
   saved,
+  deleteTaskFromLocal,
+  deleteProjectFromLocal,
 } from './projects-logic';
-import { currentdiv, currentProject } from './tasks-constructors';
+import { currentProject } from './tasks-constructors';
 import {
   setActiveTab,
   displaycompletedProjectTasks,
@@ -17,16 +19,13 @@ const displayProjects = (() => {
     const newProject = document.createElement('li');
     projectList.append(newProject);
     newProject.textContent = project.title;
-    const deleteIcon = document.createElement('img');
-    deleteIcon.setAttribute('src', '/src/img/icons8-remove-48.png');
-    deleteIcon.addEventListener('click', (e) => {
-      deleteProject(e.target);
+    const deleteBtn = document.querySelector('#deleteProject');
+    deleteBtn.addEventListener('click', (e) => {
+      deleteProject();
       e.stopPropagation();
     });
-    newProject.append(deleteIcon);
     newProject.addEventListener('click', (e) => {
       setActiveTab(e.target);
-      console.log(project.title);
       displayPage(project);
       displayTasks.showProjectTasks(project.title);
     });
@@ -45,32 +44,35 @@ const displayProjects = (() => {
 
 const displayTasks = (() => {
   const exist = [];
-
   const createTask = (projectsTask) => {
     const div = document.createElement('div');
     let currentdiv = document.querySelector(`[data-active]`);
     const pending = currentdiv.querySelector('.pending');
     pending.append(div);
     div.classList.add('task');
+    div.setAttribute('data-task', `${projectsTask.title}`);
+    const con = document.createElement('div');
+    div.append(con);
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
-    const date = document.createElement('input');
-    date.setAttribute('type', 'date');
+    const date = document.createElement('p');
     checkbox.addEventListener('click', (e) => {
       displaycompletedProjectTasks.moveTask(checkbox);
     });
-    div.append(checkbox);
+    con.append(checkbox);
+
     const title = document.createElement('label');
-    div.append(title);
-    div.append(date);
+    con.append(title);
+    con.append(date);
     title.textContent = projectsTask.title;
 
-    //fix delete feature
     const removeIcon = document.createElement('img');
     removeIcon.setAttribute('src', '/src/img/icons8-xbox-x-30.png');
     removeIcon.addEventListener('click', (e) => {
       e.stopPropagation();
-      deleteTask(e.target);
+      let tag = e.target.parentElement.parentElement.getAttribute('data-title');
+      removeIcon.parentElement.remove();
+      deleteTaskFromLocal(tag, e.target);
     });
     div.append(removeIcon);
   };
@@ -124,9 +126,11 @@ const displayPage = (button) => {
   }
 };
 
-const deleteProject = (title) => {
-  createdProjects.forEach((project) => {
-    if (project.title == title.parentElement.textContent) {
+const deleteProject = () => {
+  const active = document.querySelector('.active');
+  const title = active.textContent;
+  saved.forEach((project) => {
+    if (project.title == title) {
       const content = document.querySelector('.content');
       const projectDiv = content.querySelector(
         `[data-name="${project.title}"]`
@@ -135,7 +139,8 @@ const deleteProject = (title) => {
         projectDiv.remove();
       }
       deleteProjectFromArray(title);
-      title.parentElement.remove();
+      deleteProjectFromLocal(title);
+      active.remove();
     }
   });
 };

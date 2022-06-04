@@ -13,15 +13,15 @@ const savetoLoacal = (data) => {
 };
 
 class todos {
-  constructor(title, description) {
+  constructor(title, DueDate) {
     this.title = title;
-    this.description = description;
+    this.DueDate = DueDate;
   }
 }
 
 const createTasks = (() => {
-  const addTask = (title, description) => {
-    let task = new todos(title, description);
+  const addTask = (title, DueDate) => {
+    let task = new todos(title, DueDate);
     tasks.push(task);
     savetoLoacal(task);
   };
@@ -37,4 +37,13 @@ const deletetask = (item) => {
   });
 };
 
-export { todos, createTasks, tasks, deletetask, saved };
+const deleteTaskFromLocal = (item) => {
+  saved.forEach((task) => {
+    if (task.title == item) {
+      saved.splice(saved.indexOf(task), 1);
+      localStorage.setItem('today', JSON.stringify(saved));
+    }
+  });
+};
+
+export { todos, createTasks, tasks, deletetask, deleteTaskFromLocal, saved };

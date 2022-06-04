@@ -3,19 +3,20 @@ import { currentProject, currentdiv } from './tasks-constructors';
 const displaycompletedTasks = (() => {
   let completedTasks = 0;
   const moveTask = (input) => {
-    if (input.parentElement.parentElement.getAttribute('class') == 'pending') {
+    if (
+      input.parentElement.parentElement.parentElement.getAttribute('class') ==
+      'pending'
+    ) {
       const completed = document.querySelector('.completed');
-      completed.append(input.parentElement);
-      const span = completed.querySelector('span');
-      console.log(span);
+      completed.append(input.parentElement.parentElement);
+      const span = completed.querySelector('.counter');
       completedTasks++;
       span.textContent = completedTasks;
     } else {
       const pending = document.querySelector('.pending');
-      pending.append(input.parentElement);
+      pending.append(input.parentElement.parentElement);
       const completed = document.querySelector('.completed');
       const span = completed.querySelector('span');
-      console.log(span);
       completedTasks--;
       span.textContent = completedTasks;
     }
@@ -26,20 +27,20 @@ const displaycompletedTasks = (() => {
 const displaycompletedProjectTasks = (() => {
   let completedTasks = 0;
   const moveTask = (input) => {
-    if (input.parentElement.parentElement.getAttribute('class') == 'pending') {
+    if (
+      input.parentElement.parentElement.parentElement.getAttribute('class') ==
+      'pending'
+    ) {
       const completed = currentdiv.querySelector('.completed');
-      console.log(currentdiv);
-      completed.append(input.parentElement);
+      completed.append(input.parentElement.parentElement);
       const span = completed.querySelector('span');
-      console.log(span);
       completedTasks++;
       span.textContent = completedTasks;
     } else {
       const pending = currentdiv.querySelector('.pending');
-      pending.append(input.parentElement);
+      pending.append(input.parentElement.parentElement);
       const completed = currentdiv.querySelector('.completed');
       const span = completed.querySelector('span');
-      console.log(span);
       completedTasks--;
       span.textContent = completedTasks;
     }

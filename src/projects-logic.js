@@ -2,8 +2,8 @@ import { todos } from './todos-logic';
 import { displayProjects } from './project-display-controller';
 
 const button1 = document.querySelector('#createProject');
+const button2 = document.querySelector('#deleteProject');
 button1.addEventListener('click', (e) => {
-  console.log('clicked');
   createInput();
 });
 
@@ -15,8 +15,8 @@ class projects {
     this.title = title;
     this.tasks = [];
   }
-  addTask(title, description) {
-    let task = new todos(title, description);
+  addTask(title, DueDate) {
+    let task = new todos(title, DueDate);
     this.tasks.push(task);
     saveProjectTaskToLocal(task, this.title);
   }
@@ -27,13 +27,11 @@ const savetoLoacal = (data) => {
     localStorage.setItem('projects', JSON.stringify(createdProjects));
   } else {
     saved.push(data);
-    console.log(data);
     localStorage.setItem('projects', JSON.stringify(saved));
   }
 };
 
 const saveProjectTaskToLocal = (data, parent) => {
-  console.log(data);
   if (saved == null) {
     localStorage.setItem('projects', JSON.stringify(createdProjects));
   } else {
@@ -41,7 +39,6 @@ const saveProjectTaskToLocal = (data, parent) => {
       if (project.title == parent) {
         project.tasks.push(data);
         localStorage.setItem('projects', JSON.stringify(saved));
-        console.log(saved);
       }
     });
   }
@@ -66,6 +63,7 @@ const deleteProjectFromArray = (title) => {
 
 const createInput = () => {
   button1.style.display = 'none';
+  button2.style.display = 'none';
   const div = document.querySelector('.buttons');
   const input = document.createElement('input');
   input.setAttribute('id', 'createInput');
@@ -85,6 +83,7 @@ const createInput = () => {
   cancelButton.style.display = 'block';
   cancelButton.addEventListener('click', (e) => {
     button1.style.display = 'block';
+    button2.style.display = 'block';
     options.remove();
     input.remove();
   });
@@ -92,8 +91,34 @@ const createInput = () => {
     createProject.addProject(input.value);
     displayProjects.showProjects();
     button1.style.display = 'block';
+    button2.style.display = 'block';
     options.remove();
     input.remove();
+  });
+};
+
+const deleteTaskFromLocal = (name, given) => {
+  const taskDiv = given.parentElement.getAttribute('data-task');
+  saved.forEach((project) => {
+    if (project.title == name) {
+      project.tasks.forEach((task) => {
+        console.log(task.title);
+        console.log(taskDiv);
+        if (task.title == taskDiv) {
+          project.tasks.splice(project.tasks.indexOf(task), 1);
+          localStorage.setItem('projects', JSON.stringify(saved));
+        }
+      });
+    }
+  });
+};
+
+const deleteProjectFromLocal = (name) => {
+  saved.forEach((project) => {
+    if (project.title == name) {
+      saved.splice(saved.indexOf(project), 1);
+      localStorage.setItem('projects', JSON.stringify(saved));
+    }
   });
 };
 
@@ -102,8 +127,8 @@ function projectMethods(data) {
   this.tasks = [];
 }
 
-projectMethods.prototype.addTask = function (title, description) {
-  let task = new todos(title, description);
+projectMethods.prototype.addTask = function (title, DueDate) {
+  let task = new todos(title, DueDate);
   this.tasks.push(task);
   saveProjectTaskToLocal(task, this.title);
 };
@@ -114,4 +139,6 @@ export {
   deleteProjectFromArray,
   saved,
   projectMethods,
+  deleteTaskFromLocal,
+  deleteProjectFromLocal,
 };

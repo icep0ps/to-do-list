@@ -1,4 +1,9 @@
-import { tasks, deletetask as deletetaskFromArray, saved } from './todos-logic';
+import {
+  tasks,
+  deletetask as deletetaskFromArray,
+  saved,
+  deleteTaskFromLocal,
+} from './todos-logic';
 import { displaycompletedTasks } from './general-display-controller';
 import { createProjectPage } from './index';
 
@@ -10,17 +15,22 @@ const displayTasks = (() => {
     pending.append(div);
     div.classList.add('task');
     div.setAttribute('data-task', `${task.title}`);
+    const con = document.createElement('div');
+    div.append(con);
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
-    const date = document.createElement('input');
-    date.setAttribute('type', 'date');
-    date.textContent = 'No Date';
+    const date = document.createElement('p');
+    if (task.date == '') {
+      date.textContent = 'no date';
+    } else {
+      date.textContent = task.DueDate;
+    }
     checkbox.addEventListener('click', (e) => {
       displaycompletedTasks.moveTask(checkbox);
     });
-    div.append(checkbox);
+    con.append(checkbox);
     const title = document.createElement('label');
-    div.append(title);
+    con.append(title);
     title.textContent = task.title;
     div.append(date);
     const removeIcon = document.createElement('img');
@@ -35,7 +45,6 @@ const displayTasks = (() => {
     tasks.forEach((task) => {
       if (!exist.includes(task.title)) {
         exist.push(task.title);
-        console.log(task.title);
         createTask(task);
       }
     });
@@ -64,15 +73,29 @@ const displayPage = (button) => {
     createProjectPage.createPage(button);
   }
 };
+const checkStorage = () => {
+  return saved == null ? true : false;
+};
 
 const deleteTask = (item) => {
-  tasks.forEach((task) => {
-    const taskDiv = item.parentElement.getAttribute('data-task');
-    if (task.title == taskDiv) {
-      item.parentElement.remove();
-      deletetaskFromArray(taskDiv);
-    }
-  });
+  if (saved == null) {
+    tasks.forEach((task) => {
+      const taskDiv = item.parentElement.getAttribute('data-task');
+      if (task.title == taskDiv) {
+        item.parentElement.remove();
+        deletetaskFromArray(taskDiv);
+      }
+    });
+  } else {
+    saved.forEach((task) => {
+      const taskDiv = item.parentElement.getAttribute('data-task');
+      if (task.title == taskDiv) {
+        item.parentElement.remove();
+        deletetaskFromArray(taskDiv);
+        deleteTaskFromLocal(taskDiv);
+      }
+    });
+  }
 };
 
 const todayLoader = () => {
