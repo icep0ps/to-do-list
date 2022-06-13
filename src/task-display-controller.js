@@ -6,6 +6,7 @@ import {
 } from './todos-logic';
 import { displaycompletedTasks } from './general-display-controller';
 import { createProjectPage } from './index';
+var moment = require('moment');
 
 const displayTasks = (() => {
   const exist = [];
@@ -15,26 +16,26 @@ const displayTasks = (() => {
     pending.append(div);
     div.classList.add('task');
     div.setAttribute('data-task', `${task.title}`);
-    const con = document.createElement('div');
-    div.append(con);
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
     const date = document.createElement('p');
-    if (task.date == '') {
-      date.textContent = 'no date';
+    console.log(task.DueDate);
+    if (task.DueDate == '') {
+      date.textContent = 'with no date set';
     } else {
-      date.textContent = task.DueDate;
+      date.textContent = moment(task.DueDate).calendar();
     }
+
     checkbox.addEventListener('click', (e) => {
       displaycompletedTasks.moveTask(checkbox);
     });
-    con.append(checkbox);
+    div.append(checkbox);
     const title = document.createElement('label');
-    con.append(title);
+    div.append(title);
     title.textContent = task.title;
     div.append(date);
-    const removeIcon = document.createElement('img');
-    removeIcon.setAttribute('src', '/src/img/icons8-xbox-x-30.png');
+    const removeIcon = document.createElement('span');
+    removeIcon.innerText = 'cancel';
     removeIcon.addEventListener('click', (e) => {
       e.stopPropagation();
       deleteTask(e.target);

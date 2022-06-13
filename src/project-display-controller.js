@@ -11,6 +11,7 @@ import {
   displaycompletedProjectTasks,
 } from './general-display-controller';
 import { createProjectPage } from './index';
+var moment = require('moment');
 
 const displayProjects = (() => {
   const exist = [];
@@ -51,23 +52,26 @@ const displayTasks = (() => {
     pending.append(div);
     div.classList.add('task');
     div.setAttribute('data-task', `${projectsTask.title}`);
-    const con = document.createElement('div');
-    div.append(con);
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
     const date = document.createElement('p');
+    if (projectsTask.DueDate == undefined) {
+      date.textContent = 'with no date set';
+    } else {
+      date.textContent = moment(projectsTask.DueDate).calendar();
+    }
     checkbox.addEventListener('click', (e) => {
       displaycompletedProjectTasks.moveTask(checkbox);
     });
-    con.append(checkbox);
+    div.append(checkbox);
 
     const title = document.createElement('label');
-    con.append(title);
-    con.append(date);
+    div.append(title);
+    div.append(date);
     title.textContent = projectsTask.title;
 
-    const removeIcon = document.createElement('img');
-    removeIcon.setAttribute('src', '/src/img/icons8-xbox-x-30.png');
+    const removeIcon = document.createElement('span');
+    removeIcon.innerText = 'cancel';
     removeIcon.addEventListener('click', (e) => {
       e.stopPropagation();
       let tag = e.target.parentElement.parentElement.getAttribute('data-title');

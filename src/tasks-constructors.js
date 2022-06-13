@@ -69,15 +69,23 @@ class createProjectTodos {
     dateLabel.innerText = 'Due Date';
     dateDiv.append(dateLabel);
     const date = document.createElement('input');
-    date.setAttribute('type', 'date');
+    date.setAttribute('type', 'text');
     dateDiv.append(date);
+    date.onfocus = function () {
+      this.type = 'datetime-local';
+    };
+    date.onblur = function () {
+      if (!this.value) {
+        this.type = 'text';
+      }
+    };
 
     const btnDiv = document.createElement('div');
     btnDiv.setAttribute('class', 'form-buttons');
     form.append(btnDiv);
     const createBtn = document.createElement('button');
     createBtn.setAttribute('type', 'button');
-    createBtn.innerText = '+ Create';
+    createBtn.innerText = 'Create';
     createBtn.addEventListener('click', (e) => {
       if (saved !== null) {
         saved.forEach((project) => {
@@ -160,8 +168,16 @@ class createDayTodos extends createProjectTodos {
     dateLabel.innerText = 'Due Date';
     dateDiv.append(dateLabel);
     const date = document.createElement('input');
-    date.setAttribute('type', 'date');
+    date.setAttribute('type', 'text');
     dateDiv.append(date);
+    date.onfocus = function () {
+      this.type = 'datetime-local';
+    };
+    date.onblur = function () {
+      if (!this.value) {
+        this.type = 'text';
+      }
+    };
 
     const btnDiv = document.createElement('div');
     btnDiv.setAttribute('class', 'form-buttons');
