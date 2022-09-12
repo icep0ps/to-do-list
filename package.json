@@ -16,6 +16,8 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "moment": "^2.29.3"
+    "firebase": "^9.9.4",
+    "moment": "^2.29.3",
+    "uniqid": "^5.4.0"
   }
 }

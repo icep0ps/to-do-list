@@ -1,49 +1,52 @@
-import { displayTasks } from './task-display-controller';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
+import uniqid from 'uniqid';
+import { database } from './projects-logic';
+import { tasksModule } from '../src/DisplayController';
+import { removePopup } from '../src/Events';
 
-const tasks = [];
-let saved = JSON.parse(localStorage.getItem('today'));
+let TodaylocalStorage = JSON.parse(localStorage.getItem('today'));
+let CloudStorage = await getDocs(collection(database, 'Todos'));
 
-const savetoLoacal = (data) => {
-  if (saved == null) {
-    localStorage.setItem('today', JSON.stringify(tasks));
-  } else {
-    saved.push(data);
-    localStorage.setItem('today', JSON.stringify(saved));
+const savetoLocalStorage = (data) => {
+  if (TodaylocalStorage == null) {
+    localStorage.setItem('today', JSON.stringify([]));
   }
+  TodaylocalStorage.push(data);
+  localStorage.setItem('today', JSON.stringify(TodaylocalStorage));
 };
 
 class todos {
   constructor(title, DueDate) {
+    this.id = uniqid();
     this.title = title;
     this.DueDate = DueDate;
+    this.completed = false;
   }
 }
 
-const createTasks = (() => {
-  const addTask = (title, DueDate) => {
-    let task = new todos(title, DueDate);
-    tasks.push(task);
-    savetoLoacal(task);
-  };
+const createAndDisplayTask = () => {
+  const title = document.getElementById('task-input');
+  const DueDate = document.getElementById('date-input');
 
-  return { addTask };
-})();
+  const task = new todos(title.value, DueDate.value);
+  savetoLocalStorage(task);
+  removePopup();
+  tasksModule.displayTask(task, deleteTask);
+};
 
-const deletetask = (item) => {
-  tasks.forEach((task) => {
-    if (task.title == item) {
-      tasks.splice(tasks.indexOf(task), 1);
+const deleteTask = (event) => {
+  const task_id = event.currentTarget.id;
+  tasksModule.deleteTaskFromDom(event);
+  deleteTaskFromLocal(task_id);
+};
+
+const deleteTaskFromLocal = (id) => {
+  TodaylocalStorage.forEach((task) => {
+    if (task.id === id) {
+      TodaylocalStorage.splice(TodaylocalStorage.indexOf(task), 1);
+      localStorage.setItem('today', JSON.stringify(TodaylocalStorage));
     }
   });
 };
 
-const deleteTaskFromLocal = (item) => {
-  saved.forEach((task) => {
-    if (task.title == item) {
-      saved.splice(saved.indexOf(task), 1);
-      localStorage.setItem('today', JSON.stringify(saved));
-    }
-  });
-};
-
-export { todos, createTasks, tasks, deletetask, deleteTaskFromLocal, saved };
+export { todos, createAndDisplayTask, TodaylocalStorage, deleteTask };

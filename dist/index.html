@@ -37,35 +37,43 @@
             <svg xmlns="http://www.w3.org/2000/svg" height="48" width="48">
               <path
                 d="M19.95 42 22 27.9H14.7Q14.15 27.9 13.9 27.4Q13.65 26.9 13.9 26.45L26.15 6H28.2L26.15 20.05H33.35Q33.9 20.05 34.175 20.55Q34.45 21.05 34.2 21.5L22 42Z"
-              /></svg
-            >Quick Tasks
+              />
+            </svg>
+            Quick Tasks
           </h1>
         </div>
         <ul class="inbox">
-          <h2>Inbox</h2>
           <li class="active">Today</li>
           <li>This week</li>
         </ul>
-
-        <h2>Projects</h2>
 
         <ul class="projects"></ul>
         <div class="buttons">
           <button id="createProject">Create Project</button>
           <button id="deleteProject">Delete Project</button>
         </div>
-        <p>
-          Become focused, organized, and calm with Taskify. A minimalistic task
-          manager and to-do list app.
-          <br />
-          <br />
-          <a href="https://github.com/icep0ps"
-            ><img src="/src/img/25231.png" height="20px" width="20px" /> Made By
-            Icepops</a
-          >
-        </p>
+
+        <div id="account">
+          <div id="avatar"></div>
+          <div id="account-info">
+            <h3>Username</h3>
+            <p>username@gmail.com</p>
+          </div>
+        </div>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <div class="Today" id="group" data-id="Today">
+          <div id="titles">
+            <h1>Today</h1>
+            <div class="add-task">
+              <button id="add-task-btn">+ Add Task</button>
+            </div>
+          </div>
+          <div class="pending"></div>
+          <h1>Completed<span class="counter">0</span></h1>
+          <div class="completed"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

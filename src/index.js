@@ -1,31 +1,22 @@
-import { createDayTodos } from './tasks-constructors';
-import { createProjectTodos } from './tasks-constructors';
 import { setActiveTab } from './general-display-controller';
-import { todayLoader, displayPage } from './task-display-controller';
-import { projectLoader } from './project-display-controller';
+import { projectsModule, tasksModule } from './DisplayController';
+import { createNewProjectInputField, createPopUp } from './Events';
+import { ProjectslocalStorage } from './projects-logic';
+import { TodaylocalStorage } from './todos-logic';
 
-let activePage = new createDayTodos('today');
-activePage.project();
-activePage.inputs();
-todayLoader();
-projectLoader();
-
-const DefaultactiveButton = (() => {
-  const Today = document.querySelector('li');
-  Today.addEventListener('click', (e) => {
-    setActiveTab(e.target);
-    displayPage(Today.textContent);
-  });
+const loadTasksAndProjects = (() => {
+  if (ProjectslocalStorage != null && TodaylocalStorage != null) {
+    tasksModule.todayLoader();
+    projectsModule.projectLoader();
+  }
 })();
 
-const createProjectPage = (() => {
-  const createPage = (button) => {
-    activePage = new createProjectTodos(button.title);
-    activePage.project();
-    activePage.inputs();
-  };
+const addEventListeners = (() => {
+  const addTasks = document.querySelector('#add-task-btn');
+  const create_project_btn = document.querySelector('#createProject');
+  const delete_project_btn = document.querySelector('#deleteProject');
 
-  return { createPage };
+  addTasks.addEventListener('click', createPopUp);
+  create_project_btn.addEventListener('click', createNewProjectInputField);
+  delete_project_btn.addEventListener('click', projectsModule.deleteProject);
 })();
-
-export { createProjectPage };
