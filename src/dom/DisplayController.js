@@ -9,8 +9,9 @@ import {
 
 const tasksModule = (() => {
   const handleTaskData = (add_task_function, project) => {
-    const title_input = document.getElementById('task-input');
-    const DueDate_input = document.getElementById('date-input');
+    const title_input = document.querySelector('#task-input');
+    const DueDate_input = document.querySelector('#date-input');
+    console.log(title_input.value, DueDate_input);
     const title = title_input.value;
     const DueDate = DueDate_input.value;
     const binded = add_task_function.bind(project);
@@ -19,6 +20,7 @@ const tasksModule = (() => {
   };
 
   const displayTask = (taskObject, deleteTaskFunction) => {
+    console.log(taskObject);
     const { id, title, DueDate } = taskObject;
 
     const task_container = document.createElement('div');
@@ -64,9 +66,11 @@ const tasksModule = (() => {
 
   const todayLoader = () => {
     const today = document.querySelector('.active');
-    const today_id = today.getAttribute('data-id');
-    today.addEventListener('click', (event) => loadContent(today_id, event));
-    TodaylocalStorage.forEach((task) => {
+    today.addEventListener('click', (event) =>
+      loadContent(TodaylocalStorage, event)
+    );
+    TodaylocalStorage.tasks.forEach((task) => {
+      console.log(TodaylocalStorage.tasks);
       displayTask(task, deleteTask);
     });
   };
@@ -87,6 +91,7 @@ const projectsModule = (() => {
   };
 
   const loadContent = (project, event) => {
+    console.log(event.target, project);
     setTabAsActive(event.target);
     loadPage(project.id, project.type, project);
   };

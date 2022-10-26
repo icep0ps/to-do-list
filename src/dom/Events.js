@@ -12,6 +12,7 @@ const createPopUp = (add_task_function, project) => {
 
   const form = document.createElement('form');
   popup_box.append(form);
+
   const heading = document.createElement('h1');
   heading.innerText = `Create Task`;
   form.append(heading);
@@ -49,16 +50,20 @@ const createPopUp = (add_task_function, project) => {
   const create_task_button = document.createElement('button');
   create_task_button.setAttribute('type', 'button');
   create_task_button.innerText = 'Create';
-  create_task_button.addEventListener('click', (e) =>
-    tasksModule.handleTaskData(add_task_function, project)
-  );
   button_container.append(create_task_button);
+  addPopUpEvents(create_task_button, project);
 
   const cancel_button = document.createElement('button');
   cancel_button.setAttribute('type', 'button');
   cancel_button.innerText = 'Cancel';
   button_container.append(cancel_button);
   cancel_button.addEventListener('click', removePopup);
+
+  function addPopUpEvents(create_task_button, project) {
+    create_task_button.addEventListener('click', (e) =>
+      tasksModule.handleTaskData(add_task_function, project)
+    );
+  }
 };
 
 const removePopup = () => {
@@ -79,7 +84,7 @@ const createNewProjectInputField = () => {
   options.classList.add('options');
   input.setAttribute('id', 'createInput');
   createButton.setAttribute('id', 'createButton');
-  cancelButton.setAttribute('id', 'createButton');
+  cancelButton.setAttribute('id', 'cancelButton');
 
   createButton.textContent = 'Create';
   cancelButton.textContent = 'Cancel';
@@ -93,18 +98,17 @@ const createNewProjectInputField = () => {
   cancelButton.style.display = 'block';
 
   cancelButton.addEventListener('click', removeNewProjectInputField);
-
   createButton.addEventListener('click', createProject);
 };
 
-const removeNewProjectInputField = () => {
+function removeNewProjectInputField() {
   const options = document.querySelector('.options');
   const input = document.getElementById('createInput');
   create_project_btn.style.display = 'block';
   delete_project_btn.style.display = 'block';
   options.remove();
   input.remove();
-};
+}
 
 export {
   createNewProjectInputField,

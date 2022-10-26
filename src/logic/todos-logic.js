@@ -5,17 +5,21 @@ import { tasksModule } from '../dom/DisplayController';
 
 const isLocalStorageInitialized = (() => {
   if (localStorage.getItem('today') === null) {
-    localStorage.setItem('today', JSON.stringify([]));
+    localStorage.setItem(
+      'today',
+      JSON.stringify({
+        type: 'today',
+        id: uniqid(),
+        title: 'today',
+        tasks: [],
+        completedTasks: 0,
+      })
+    );
   }
 })();
 
 let TodaylocalStorage = JSON.parse(localStorage.getItem('today'));
-let CloudStorage = await getDocs(collection(database, 'Todos'));
-
-const savetoLocalStorage = (data) => {
-  TodaylocalStorage.push(data);
-  localStorage.setItem('today', JSON.stringify(TodaylocalStorage));
-};
+let CloudStorage = await getDocs(collection(database, 'today'));
 
 class todos {
   constructor(title, DueDate) {
@@ -45,6 +49,11 @@ const deleteTaskFromLocal = (id) => {
       localStorage.setItem('today', JSON.stringify(TodaylocalStorage));
     }
   });
+};
+
+const savetoLocalStorage = (data) => {
+  TodaylocalStorage.tasks.push(data);
+  localStorage.setItem('today', JSON.stringify(TodaylocalStorage));
 };
 
 export { todos, createTask, TodaylocalStorage, deleteTask };

@@ -1,19 +1,20 @@
-import { todos } from './todos-logic';
-import uniqid from 'uniqid';
 import {
   getFirestore,
-  collection,
   getDocs,
+  deleteDoc,
+  collection,
   getDoc,
   doc,
   setDoc,
   arrayUnion,
   updateDoc,
-  deleteDoc,
 } from 'firebase/firestore';
-import { removeNewProjectInputField } from '../dom/Events';
+
+import uniqid from 'uniqid';
+import { todos } from './todos-logic';
 import { initializeApp } from 'firebase/app';
 import { projectsModule } from '../dom/DisplayController';
+import { removeNewProjectInputField } from '../dom/Events';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBF-OvqaoPVGW3oXN6eRBved3q-he4vo7Q',
