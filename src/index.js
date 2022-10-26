@@ -1,8 +1,8 @@
-import { TodaylocalStorage } from './logic/todos-logic';
-import { ProjectslocalStorage } from './logic/projects-logic';
+import { TodaylocalStorage } from './Logic/todos-logic';
+import { ProjectslocalStorage } from './Logic/projects-logic';
 import { projectsModule, tasksModule } from './dom/DisplayController';
 import { createNewProjectInputField, createPopUp } from './dom/Events';
-import { createTask } from './logic/todos-logic';
+import { createTask } from './Logic/todos-logic';
 
 const loadTasksAndProjects = (() => {
   if (ProjectslocalStorage != null && TodaylocalStorage != null) {

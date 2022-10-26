@@ -1,8 +1,8 @@
 import { createTask, TodaylocalStorage } from './todos-logic';
-import { createPopUp } from '../dom/Events';
+import { createPopUp } from '../DisplayControllers/events';
 import { projectMethods } from './projects-logic';
 import { ProjectslocalStorage } from './projects-logic';
-import { projectsModule, tasksModule } from '../dom/DisplayController';
+import { projectsModule, tasksModule } from '../DisplayControllers/taskModule';
 
 const setTabAsActive = (tab) => {
   const tabs = document.querySelectorAll('li');

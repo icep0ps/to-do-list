@@ -1,7 +1,7 @@
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import uniqid from 'uniqid';
 import { database } from './projects-logic';
-import { tasksModule } from '../dom/DisplayController';
+import { tasksModule } from '../DisplayControllers/taskModule';
 
 const isLocalStorageInitialized = (() => {
   if (localStorage.getItem('today') === null) {

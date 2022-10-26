@@ -13,8 +13,8 @@ import {
 import uniqid from 'uniqid';
 import { todos } from './todos-logic';
 import { initializeApp } from 'firebase/app';
-import { projectsModule } from '../dom/DisplayController';
-import { removeNewProjectInputField } from '../dom/Events';
+import { projectsModule } from '../DisplayControllers/taskModule';
+import { removeNewProjectInputField } from '../DisplayControllers/events';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBF-OvqaoPVGW3oXN6eRBved3q-he4vo7Q',

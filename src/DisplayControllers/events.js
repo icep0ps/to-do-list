@@ -1,5 +1,5 @@
-import { tasksModule } from './DisplayController';
-import { createProject } from '../logic/projects-logic';
+import { tasksModule } from './taskModule';
+import { createProject } from '../Logic/projects-logic';
 
 const create_project_btn = document.querySelector('#createProject');
 const delete_project_btn = document.querySelector('#deleteProject');
