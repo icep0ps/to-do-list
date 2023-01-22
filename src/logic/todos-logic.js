@@ -1,6 +1,6 @@
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import uniqid from 'uniqid';
-import { database } from './projects-logic';
+import { database } from '../configs/firebase-config';
 import { tasksModule } from '../DisplayControllers/taskModule';
 
 const isLocalStorageInitialized = (() => {
@@ -12,14 +12,13 @@ const isLocalStorageInitialized = (() => {
         id: uniqid(),
         title: 'today',
         tasks: [],
-        completedTasks: 0,
       })
     );
   }
 })();
 
-let TodaylocalStorage = JSON.parse(localStorage.getItem('today'));
 let CloudStorage = await getDocs(collection(database, 'today'));
+let TodaylocalStorage = JSON.parse(localStorage.getItem('today'));
 
 class todos {
   constructor(title, DueDate) {
@@ -30,11 +29,11 @@ class todos {
   }
 }
 
-const createTask = (title, DueDate) => {
+function createTask(title, DueDate) {
   const task = new todos(title, DueDate);
   savetoLocalStorage(task);
   tasksModule.displayTask(task, deleteTask);
-};
+}
 
 const deleteTask = (event) => {
   const task_id = event.currentTarget.id;
@@ -43,17 +42,32 @@ const deleteTask = (event) => {
 };
 
 const deleteTaskFromLocal = (id) => {
-  TodaylocalStorage.forEach((task) => {
+  TodaylocalStorage.tasks.forEach((task) => {
     if (task.id === id) {
-      TodaylocalStorage.splice(TodaylocalStorage.indexOf(task), 1);
+      TodaylocalStorage.tasks.splice(TodaylocalStorage.tasks.indexOf(task), 1);
       localStorage.setItem('today', JSON.stringify(TodaylocalStorage));
     }
   });
 };
+
+function markTaskAsCompleted(id) {
+  const task = TodaylocalStorage.tasks.filter((task) => task.id === id);
+  task[0].completed = !task[0].completed;
+  deleteTaskFromLocal(id);
+  savetoLocalStorage(task[0]);
+}
 
 const savetoLocalStorage = (data) => {
   TodaylocalStorage.tasks.push(data);
   localStorage.setItem('today', JSON.stringify(TodaylocalStorage));
 };
 
-export { todos, createTask, TodaylocalStorage, deleteTask };
+export {
+  todos,
+  createTask,
+  TodaylocalStorage,
+  deleteTask,
+  savetoLocalStorage,
+  deleteTaskFromLocal,
+  markTaskAsCompleted,
+};

@@ -40,6 +40,12 @@ function add(numbers) {
 }
 ```
 
+i added a binded because when a project is created , it is created using a class so when it is stored and then loaded again all its methods are lost by methods i mean the add tasks method. So what i did was whenever im about to add a task to a project i will then bind the this keyword to it because when i passed down the add tasks method i only passed down the function defination to createPopUP so this is unidifined
+
+```js
+createPopUp(newProjectWithMethods.addTask, newProjectWithMethods);
+```
+
 # Possible improvements
 
 I would not have used classes to make my project objects but use factory functions instead

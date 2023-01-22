@@ -1,5 +1,4 @@
 import {
-  getFirestore,
   getDocs,
   deleteDoc,
   collection,
@@ -9,24 +8,12 @@ import {
   arrayUnion,
   updateDoc,
 } from 'firebase/firestore';
-
 import uniqid from 'uniqid';
 import { todos } from './todos-logic';
-import { initializeApp } from 'firebase/app';
-import { projectsModule } from '../DisplayControllers/taskModule';
+import { database } from '../configs/firebase-config';
+import { tasksModule } from '../DisplayControllers/taskModule';
+import projectsModule from '../DisplayControllers/projectModule';
 import { removeNewProjectInputField } from '../DisplayControllers/events';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyBF-OvqaoPVGW3oXN6eRBved3q-he4vo7Q',
-  authDomain: 'todo-app-5a6f9.firebaseapp.com',
-  projectId: 'todo-app-5a6f9',
-  storageBucket: 'todo-app-5a6f9.appspot.com',
-  messagingSenderId: '764050344103',
-  appId: '1:764050344103:web:d3d1cdf864950ca16e3382',
-};
-
-const app = initializeApp(firebaseConfig);
-export const database = getFirestore(app);
 
 const isLocalStorageInitialized = (() => {
   if (localStorage.getItem('projects') === null) {
@@ -74,6 +61,16 @@ const saveProjectTaskToCloud = async (data, id) => {
   });
 };
 
+function markProjectTaskAsCompleted(projectId, taskId) {
+  const project = ProjectslocalStorage.filter(
+    (project) => project.id === projectId
+  );
+  const task = project[0].tasks.filter((task) => task.id === taskId);
+  task[0].completed = !task[0].completed;
+  deleteTaskFromLocal(projectId, taskId);
+  saveProjectTaskToLocal(task[0], projectId);
+}
+
 const saveProjectTaskToLocal = (data, id) => {
   ProjectslocalStorage.forEach((project) => {
     if (project.id === id) {
@@ -102,12 +99,11 @@ const deleteProjectFromArray = (id) => {
   });
 };
 
-const deleteTaskFromLocal = (name, given) => {
-  const taskDiv = given.parentElement.getAttribute('data-task');
+const deleteTaskFromLocal = (projectId, taskId) => {
   ProjectslocalStorage.forEach((project) => {
-    if (project.id == name) {
+    if (project.id == projectId) {
       project.tasks.forEach((task) => {
-        if (task.id == taskDiv) {
+        if (task.id == taskId) {
           project.tasks.splice(project.tasks.indexOf(task), 1);
           localStorage.setItem(
             'projects',
@@ -150,17 +146,19 @@ const deleteProjectFromLocal = (id) => {
   });
 };
 
-function projectMethods(data) {
-  this.type = data.type;
-  this.projectID = data.id;
-  this.title = data.title;
+function projectMethods(project) {
+  this.type = project.type;
+  this.projectID = project.id;
+  this.title = project.title;
   this.tasks = [];
-  this.completedTasks = data.completedTasks;
+  this.completedTasks = project.completedTasks;
 }
 
 projectMethods.prototype.addTask = function (title, DueDate) {
   let task = new todos(title, DueDate);
+  console.log(this);
   this.tasks.push(task);
+  tasksModule.displayTask(task, deleteTaskFromLocal);
   saveProjectTaskToLocal(task, this.projectID);
   // saveProjectTaskToCloud(task, this.projectID);
 };
@@ -175,4 +173,5 @@ export {
   deleteProjectFromLocal,
   deleteTaskFromCloud,
   deleteProjectFromCloud,
+  markProjectTaskAsCompleted,
 };

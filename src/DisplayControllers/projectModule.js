@@ -2,6 +2,8 @@ import {
   deleteProjectFromLocal,
   ProjectslocalStorage,
 } from '../Logic/projects-logic';
+import { setTabAsActive, loadPage } from '../Logic/Loaders';
+import { tasksModule, deleteTask } from './taskModule';
 
 const projectsModule = (() => {
   const displayProjectInDom = (project) => {
@@ -46,7 +48,7 @@ const projectsModule = (() => {
     ProjectslocalStorage.forEach((project) => {
       if (project_id === project.id) {
         project.tasks.forEach((task) =>
-          tasksModule.displayTask(task, deleteTask)
+          tasksModule.displayTask(task, deleteTask, project.type, project.id)
         );
       }
     });

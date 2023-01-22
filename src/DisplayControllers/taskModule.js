@@ -4,20 +4,18 @@ import { TodaylocalStorage, deleteTask } from '../Logic/todos-logic';
 import { setTabAsActive, loadPage, moveTask } from '../Logic/Loaders';
 
 const tasksModule = (() => {
-  const handleTaskData = (add_task_function, project) => {
+  function handleTaskData(add_task_function, project) {
     const title_input = document.querySelector('#task-input');
     const DueDate_input = document.querySelector('#date-input');
-    console.log(title_input.value, DueDate_input);
     const title = title_input.value;
     const DueDate = DueDate_input.value;
-    const binded = add_task_function.bind(project);
-    binded(title, DueDate);
+    const bindedAddTasksFunction = add_task_function.bind(project);
+    bindedAddTasksFunction(title, DueDate);
     removePopup();
-  };
+  }
 
-  const displayTask = (taskObject, deleteTaskFunction) => {
-    console.log(taskObject);
-    const { id, title, DueDate } = taskObject;
+  const displayTask = (taskObject, deleteTaskFunction, type, projectId) => {
+    const { id, title, DueDate, completed } = taskObject;
 
     const task_container = document.createElement('div');
     const pending_section = document.querySelector('.pending');
@@ -25,18 +23,28 @@ const tasksModule = (() => {
     task_container.classList.add('task');
     task_container.setAttribute('data-task', id);
 
+    const checkboxContainer = document.createElement('div');
+    checkboxContainer.setAttribute('class', 'task-container');
+    task_container.append(checkboxContainer);
+
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('data-task', id);
-    task_container.append(checkbox);
+    checkbox.setAttribute('data-task-type', type);
+    checkbox.setAttribute('data-project-id', projectId);
+    checkboxContainer.append(checkbox);
     checkbox.addEventListener('click', moveTask);
 
     const task_name = document.createElement('label');
-    task_container.append(task_name);
+    checkboxContainer.append(task_name);
     task_name.textContent = title;
 
+    const dateContainer = document.createElement('div');
+    dateContainer.setAttribute('class', 'task-container');
+    task_container.append(dateContainer);
+
     const task_due_date = document.createElement('p');
-    task_container.append(task_due_date);
+    dateContainer.append(task_due_date);
     if (DueDate == '') {
       task_due_date.textContent = 'with no date set';
     } else {
@@ -45,7 +53,7 @@ const tasksModule = (() => {
 
     const remove_task_button = document.createElement('span');
     remove_task_button.setAttribute('id', id);
-    task_container.append(remove_task_button);
+    dateContainer.append(remove_task_button);
     remove_task_button.innerText = 'cancel';
     remove_task_button.addEventListener('click', deleteTaskFunction);
   };
@@ -66,8 +74,7 @@ const tasksModule = (() => {
       loadContent(TodaylocalStorage, event)
     );
     TodaylocalStorage.tasks.forEach((task) => {
-      console.log(TodaylocalStorage.tasks);
-      displayTask(task, deleteTask);
+      displayTask(task, deleteTask, TodaylocalStorage.type);
     });
   };
 

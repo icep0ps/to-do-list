@@ -1,8 +1,13 @@
 import { createTask, TodaylocalStorage } from './todos-logic';
 import { createPopUp } from '../DisplayControllers/events';
 import { projectMethods } from './projects-logic';
-import { ProjectslocalStorage } from './projects-logic';
-import { projectsModule, tasksModule } from '../DisplayControllers/taskModule';
+import {
+  ProjectslocalStorage,
+  markProjectTaskAsCompleted,
+} from './projects-logic';
+import projectsModule from '../DisplayControllers/projectModule';
+import { tasksModule } from '../DisplayControllers/taskModule';
+import { markTaskAsCompleted } from './todos-logic';
 
 const setTabAsActive = (tab) => {
   const tabs = document.querySelectorAll('li');
@@ -17,7 +22,7 @@ const setTabAsActive = (tab) => {
   });
 };
 
-const loadPage = (page_id, project_type, project) => {
+const loadPage = (page_id, page_type, project) => {
   const title_container = document.querySelector('#titles');
   const heading = title_container.querySelector('h1');
   const completed_counter = document.querySelector('.counter');
@@ -30,10 +35,10 @@ const loadPage = (page_id, project_type, project) => {
   addTasksBtn.innerText = '+ Add Tasks';
   addTasksBtn.setAttribute('id', 'add-task-btn');
 
-  switch (project_type) {
+  switch (page_type) {
     case 'project':
       const newProjectWithMethods = new projectMethods(project);
-      addTasksBtn.addEventListener('click', (e) =>
+      addTasksBtn.addEventListener('click', () =>
         createPopUp(newProjectWithMethods.addTask, newProjectWithMethods)
       );
 
@@ -67,18 +72,42 @@ const clearPreviousPageTasks = () => {
 
 const moveTask = (event) => {
   const input = event.currentTarget;
-  if (input.parentElement.parentElement.getAttribute('class') == 'pending') {
-    const completed = document.querySelector('.completed');
-    completed.append(input.parentElement);
-    const span = document.querySelector('.counter');
-    completedTasks++;
-    span.textContent = completedTasks;
-  } else {
+  const taskId = input.getAttribute('data-task');
+  const projectId = input.getAttribute('data-project-id');
+  const span = document.querySelector('.counter');
+  const type = input.getAttribute('data-task-type');
+  const status = input.getAttribute('data-task-iscompleted');
+  const task_container = document.querySelector(`[data-task=${taskId}]`);
+
+  switch (type) {
+    case 'today':
+      markTaskAsCompleted(taskId);
+      const completedTasks = TodaylocalStorage.tasks.filter(
+        (task) => task.completed === true
+      );
+      span.textContent = completedTasks.length;
+      break;
+    case 'project':
+      markProjectTaskAsCompleted(projectId, taskId);
+      const project = ProjectslocalStorage.filter(
+        (project) => project.id === projectId
+      );
+      const completedProjectTask = project[0].tasks.filter(
+        (task) => task.completed === true
+      );
+      span.textContent = completedProjectTask.length;
+      break;
+    default:
+      throw new Error('not valid project type');
+  }
+  if (status) {
     const pending = document.querySelector('.pending');
-    pending.append(input.parentElement);
-    const span = document.querySelector('.counter');
-    completedTasks--;
-    span.textContent = completedTasks;
+    pending.append(task_container);
+    input.removeAttribute('data-task-iscompleted');
+  } else {
+    const completed = document.querySelector('.completed');
+    completed.append(task_container);
+    input.setAttribute('data-task-iscompleted', false);
   }
 };
 

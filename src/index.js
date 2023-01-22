@@ -1,7 +1,12 @@
 import { TodaylocalStorage } from './Logic/todos-logic';
 import { ProjectslocalStorage } from './Logic/projects-logic';
-import { projectsModule, tasksModule } from './dom/DisplayController';
-import { createNewProjectInputField, createPopUp } from './dom/Events';
+import projectsModule from './DisplayControllers/projectModule';
+import { tasksModule } from './DisplayControllers/taskModule';
+import {
+  createNewProjectInputField,
+  createPopUp,
+} from './DisplayControllers/events';
+
 import { createTask } from './Logic/todos-logic';
 
 const loadTasksAndProjects = (() => {
@@ -10,6 +15,7 @@ const loadTasksAndProjects = (() => {
     projectsModule.projectLoader();
   }
 })();
+
 const addEventListeners = (() => {
   const create_project_btn = document.querySelector('#createProject');
   const delete_project_btn = document.querySelector('#deleteProject');
