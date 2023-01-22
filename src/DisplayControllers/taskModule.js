@@ -18,8 +18,7 @@ const tasksModule = (() => {
     const { id, title, DueDate, completed } = taskObject;
 
     const task_container = document.createElement('div');
-    const pending_section = document.querySelector('.pending');
-    pending_section.append(task_container);
+
     task_container.classList.add('task');
     task_container.setAttribute('data-task', id);
 
@@ -45,6 +44,16 @@ const tasksModule = (() => {
 
     const task_due_date = document.createElement('p');
     dateContainer.append(task_due_date);
+
+    if (completed) {
+      const completed_sectoion = document.querySelector('.completed');
+      completed_sectoion.append(task_container);
+      checkbox.checked = 'checked';
+    } else {
+      const pending_section = document.querySelector('.pending');
+      pending_section.append(task_container);
+    }
+
     if (DueDate == '') {
       task_due_date.textContent = 'with no date set';
     } else {
@@ -69,13 +78,17 @@ const tasksModule = (() => {
   };
 
   const todayLoader = () => {
+    let completedTasks = 0;
     const today = document.querySelector('.active');
+    const completedTaskCounter = document.querySelector('.counter');
     today.addEventListener('click', (event) =>
       loadContent(TodaylocalStorage, event)
     );
     TodaylocalStorage.tasks.forEach((task) => {
+      task.completed === true && completedTasks++;
       displayTask(task, deleteTask, TodaylocalStorage.type);
     });
+    completedTaskCounter.innerText = completedTasks;
   };
 
   return { displayTask, deleteTaskFromDom, todayLoader, handleTaskData };

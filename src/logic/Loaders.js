@@ -32,7 +32,7 @@ const loadPage = (page_id, page_type, project) => {
 
   const addTasksBtn = document.createElement('button');
   title_container.append(addTasksBtn);
-  addTasksBtn.innerText = '+ Add Tasks';
+  addTasksBtn.innerText = 'Add Tasks';
   addTasksBtn.setAttribute('id', 'add-task-btn');
 
   switch (page_type) {
@@ -100,13 +100,17 @@ const moveTask = (event) => {
     default:
       throw new Error('not valid project type');
   }
-  if (status) {
-    const pending = document.querySelector('.pending');
-    pending.append(task_container);
-    input.removeAttribute('data-task-iscompleted');
-  } else {
+
+  if (status !== null) {
+    console.log('adding to completed');
     const completed = document.querySelector('.completed');
     completed.append(task_container);
+    input.removeAttribute('data-task-iscompleted');
+  } else {
+    console.log('adding to pending');
+    const pending = document.querySelector('.pending');
+    pending.append(task_container);
+
     input.setAttribute('data-task-iscompleted', false);
   }
 };
