@@ -83,6 +83,7 @@ const createNewProjectInputField = () => {
 
   options.classList.add('options');
   input.setAttribute('id', 'createInput');
+  input.placeholder = 'Enter new project name';
   createButton.setAttribute('id', 'createButton');
   cancelButton.setAttribute('id', 'cancelButton');
 

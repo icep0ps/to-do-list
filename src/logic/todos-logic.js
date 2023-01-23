@@ -32,7 +32,7 @@ class todos {
 function createTask(title, DueDate) {
   const task = new todos(title, DueDate);
   savetoLocalStorage(task);
-  tasksModule.displayTask(task, deleteTask);
+  tasksModule.displayTask(task, deleteTask, 'today', 'today');
 }
 
 const deleteTask = (event) => {

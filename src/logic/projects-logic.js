@@ -158,7 +158,12 @@ projectMethods.prototype.addTask = function (title, DueDate) {
   let task = new todos(title, DueDate);
   console.log(this);
   this.tasks.push(task);
-  tasksModule.displayTask(task, deleteTaskFromLocal);
+  tasksModule.displayTask(
+    task,
+    deleteTaskFromLocal,
+    'project',
+    this.project.id
+  );
   saveProjectTaskToLocal(task, this.projectID);
   // saveProjectTaskToCloud(task, this.projectID);
 };

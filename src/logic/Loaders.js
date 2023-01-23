@@ -45,8 +45,13 @@ const loadPage = (page_id, page_type, project) => {
       ProjectslocalStorage.forEach((project) => {
         if (project.id === page_id) {
           clearPreviousPageTasks();
-          heading.innerText = project.title;
-          completed_counter.innerText = project.completedTasks;
+          const project = ProjectslocalStorage.filter(
+            (project) => project.id === page_id
+          );
+          const completedProjectTask = project[0].tasks.filter(
+            (task) => task.completed === true
+          );
+          completed_counter.textContent = completedProjectTask.length;
           projectsModule.projectTaskLoader(page_id);
         }
       });
@@ -56,6 +61,10 @@ const loadPage = (page_id, page_type, project) => {
       tasksModule.todayLoader();
       heading.innerText = 'Today';
       completed_counter.innerText = 0;
+      const completedTasks = TodaylocalStorage.tasks.filter(
+        (task) => task.completed === true
+      );
+      completed_counter.textContent = completedTasks.length;
       addTasksBtn.addEventListener('click', (e) =>
         createPopUp(createTask, TodaylocalStorage)
       );
@@ -72,6 +81,7 @@ const clearPreviousPageTasks = () => {
 
 const moveTask = (event) => {
   const input = event.currentTarget;
+  console.log('this is input', input);
   const taskId = input.getAttribute('data-task');
   const projectId = input.getAttribute('data-project-id');
   const span = document.querySelector('.counter');
@@ -102,16 +112,13 @@ const moveTask = (event) => {
   }
 
   if (status !== null) {
-    console.log('adding to completed');
+    input.removeAttribute('data-task-iscompleted');
     const completed = document.querySelector('.completed');
     completed.append(task_container);
-    input.removeAttribute('data-task-iscompleted');
   } else {
-    console.log('adding to pending');
+    input.setAttribute('data-task-iscompleted', false);
     const pending = document.querySelector('.pending');
     pending.append(task_container);
-
-    input.setAttribute('data-task-iscompleted', false);
   }
 };
 

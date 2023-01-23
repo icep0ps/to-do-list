@@ -50,6 +50,7 @@ const tasksModule = (() => {
       completed_sectoion.append(task_container);
       checkbox.checked = 'checked';
     } else {
+      checkbox.setAttribute('data-task-iscompleted', false);
       const pending_section = document.querySelector('.pending');
       pending_section.append(task_container);
     }
@@ -69,7 +70,10 @@ const tasksModule = (() => {
 
   const deleteTaskFromDom = (event) => {
     const remove_task_btn = event.currentTarget;
-    remove_task_btn.parentElement.remove();
+    const id = remove_task_btn.getAttribute('id');
+    console.log(id);
+    const container = document.querySelector(`[data-task=${id}]`);
+    container.remove();
   };
 
   const loadContent = (project, event) => {
